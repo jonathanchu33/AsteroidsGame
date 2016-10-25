@@ -150,19 +150,18 @@ abstract class Floater
 
 class Star
 {
-  int myX, myY, mySize, myColor, myStroke;
+  int myX, myY, mySize, myColor;
   Star()
   {
     myX = (int)(Math.random()*400);
     myY = (int)(Math.random()*400);
     mySize = (int)(Math.random()*5);
     myColor = color((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
-    myStroke = color((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
   }
   public void show()
   {
     fill(myColor);
-    stroke(myStroke);
+    stroke(myColor);
     ellipse(myX,myY,mySize,mySize);
   }
 }
