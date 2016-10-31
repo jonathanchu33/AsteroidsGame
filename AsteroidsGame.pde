@@ -1,5 +1,5 @@
 SpaceShip jchu = new SpaceShip();
-Star [] space = new Star[100];
+Star [] space = new Star[150];
 public void setup() 
 {
   size(400,400);
@@ -32,6 +32,7 @@ public void keyPressed()
     jchu.setDirectionY(0);
     jchu.setPointDirection((int)(Math.random()*360));
   }
+  
 }
 class SpaceShip extends Floater  
 {
@@ -74,7 +75,7 @@ class SpaceShip extends Floater
 }
 abstract class Floater
 {   
-  protected int corners;  //the number of corners, a triangular floater has 3   
+  protected int corners;  //the number of corners 
   protected int[] xCorners;   
   protected int[] yCorners;   
   protected int myColor;   
@@ -99,7 +100,10 @@ abstract class Floater
     double dRadians = myPointDirection*(Math.PI/180);     
     //change coordinates of direction of travel    
     myDirectionX += ((dAmount) * Math.cos(dRadians));    
-    myDirectionY += ((dAmount) * Math.sin(dRadians));       
+    myDirectionY += ((dAmount) * Math.sin(dRadians)); 
+    line((float)(myCenterX - 20*Math.cos(dRadians)), (float)(myCenterY - 20*Math.sin(dRadians)), (float)(myCenterX - 35*Math.cos(dRadians)), (float)(myCenterY - 35*Math.sin(dRadians)));
+    line((float)(myCenterX - 20*Math.cos(dRadians - 10*Math.PI/180)), (float)(myCenterY - 20*Math.sin(dRadians - 10*Math.PI/180)), (float)(myCenterX - 35*Math.cos(dRadians - 10*Math.PI/180)), (float)(myCenterY - 35*Math.sin(dRadians - 10*Math.PI/180)));
+    line((float)(myCenterX - 20*Math.cos(dRadians + 10*Math.PI/180)), (float)(myCenterY - 20*Math.sin(dRadians + 10*Math.PI/180)), (float)(myCenterX - 35*Math.cos(dRadians + 10*Math.PI/180)), (float)(myCenterY - 35*Math.sin(dRadians + 10*Math.PI/180)));
   }   
   public void rotate (int nDegreesOfRotation)   
   {
@@ -112,7 +116,7 @@ abstract class Floater
     myCenterY += myDirectionY;     
 
     //wrap around screen    
-    if(myCenterX >width)
+    if(myCenterX > width)
     {     
       myCenterX = 0;    
     }    
@@ -120,7 +124,7 @@ abstract class Floater
     {     
       myCenterX = width;    
     }    
-    if(myCenterY >height)
+    if(myCenterY > height)
     {    
       myCenterY = 0;    
     }   
@@ -144,7 +148,7 @@ abstract class Floater
       yRotatedTranslated = (int)((xCorners[nI]* Math.sin(dRadians)) + (yCorners[nI] * Math.cos(dRadians))+myCenterY);      
       vertex(xRotatedTranslated,yRotatedTranslated);    
     }   
-    endShape(CLOSE);  
+    endShape(CLOSE); 
   }   
 } 
 
