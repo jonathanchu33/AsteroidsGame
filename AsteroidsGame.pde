@@ -1,9 +1,9 @@
 SpaceShip jchu = new SpaceShip();
 Star [] space = new Star[150];
-Asteroid [] rock = new Asteroid[7];
+Asteroid [] rock = new Asteroid[10];
 public void setup() 
 {
-  size(400,400);
+  size(600,600);
   for (int i = 0; i < space.length; i++)
     space[i] = new Star();
   for (int i = 0; i < rock.length; i++)
@@ -34,8 +34,8 @@ public void keyPressed()
     jchu.accelerate(-.05);
   if (keyCode == 32) //spacebar hyperspace
   {
-    jchu.setX((int)(Math.random()*400));
-    jchu.setY((int)(Math.random()*400));
+    jchu.setX((int)(Math.random()*600));
+    jchu.setY((int)(Math.random()*600));
     jchu.setDirectionX(0);
     jchu.setDirectionY(0);
     jchu.setPointDirection((int)(Math.random()*360));
@@ -64,8 +64,8 @@ class SpaceShip extends Floater
     xCorners[6] = 7;
     yCorners[6] = 4;
     myColor = color((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
-    myCenterX = 200;
-    myCenterY = 200;
+    myCenterX = 300;
+    myCenterY = 300;
     myDirectionX = 0;
     myDirectionY = 0;
     myPointDirection = 0;
@@ -165,8 +165,8 @@ class Star
   private int myX, myY, mySize, myColor;
   public Star()
   {
-    myX = (int)(Math.random()*400);
-    myY = (int)(Math.random()*400);
+    myX = (int)(Math.random()*600);
+    myY = (int)(Math.random()*600);
     mySize = (int)(Math.random()*5);
     myColor = color((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
   }
@@ -213,8 +213,8 @@ class Asteroid extends Floater
     myColor = color(150,150,150);
     myCenterX = (Math.random()*400);
     myCenterY = (Math.random()*400);
-    myDirectionX = (Math.random()*8)-4;
-    myDirectionY = (Math.random()*8)-4;
+    myDirectionX = (Math.random()*6)-3;
+    myDirectionY = (Math.random()*6)-3;
     myPointDirection = (Math.random()*360);
     rotationSpeed = (int)(Math.random()*21)-10;
   }
