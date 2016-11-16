@@ -1,13 +1,13 @@
 SpaceShip jchu = new SpaceShip();
 Star [] space = new Star[150];
-Asteroid [] rock = new Asteroid[10];
+ArrayList <Asteroid> rock = new ArrayList <Asteroid>();
 public void setup() 
 {
   size(600,600);
   for (int i = 0; i < space.length; i++)
     space[i] = new Star();
-  for (int i = 0; i < rock.length; i++)
-    rock[i] = new Asteroid();
+  for (int i = 0; i < 10; i++) 
+    rock.add(i, new Asteroid());
 }
 public void draw() 
 {
@@ -16,10 +16,15 @@ public void draw()
     space[i].show();
   jchu.show();
   jchu.move();
-  for (int i = 0; i < rock.length; i++)
+  for (int i = 0; i < rock.size(); i++)
   {
-    rock[i].show();
-    rock[i].move();
+    rock.get(i).show();
+    rock.get(i).move();
+  }
+  for (int j = rock.size()-1; j >= 0; j--)
+  {
+    if (dist(jchu.getX(), jchu.getY(), rock.get(j).getX(), rock.get(j).getY()) < 27)
+      rock.remove(j);
   }
 }
 public void keyPressed()
