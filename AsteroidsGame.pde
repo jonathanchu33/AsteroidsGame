@@ -1,6 +1,7 @@
 SpaceShip jchu = new SpaceShip();
 Star [] space = new Star[150];
 ArrayList <Asteroid> rock = new ArrayList <Asteroid>();
+ArrayList <Bullet> bill = new ArrayList <Bullet>();
 public void setup() 
 {
   size(600,600);
@@ -26,6 +27,11 @@ public void draw()
     if (dist(jchu.getX(), jchu.getY(), rock.get(j).getX(), rock.get(j).getY()) < 27)
       rock.remove(j);
   }
+  for (int i = 0; i < bill.size(); i++)
+  {
+    bill.get(i).show();
+    bill.get(i).move();
+  }
 }
 public void keyPressed()
 {
@@ -44,8 +50,9 @@ public void keyPressed()
     jchu.setDirectionX(0);
     jchu.setDirectionY(0);
     jchu.setPointDirection((int)(Math.random()*360));
-  }
-  
+  } 
+  if (keyCode == 83)
+    bill.add(new Bullet(jchu));
 }
 class SpaceShip extends Floater  
 {
