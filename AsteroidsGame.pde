@@ -15,8 +15,6 @@ public void draw()
   background(0);
   for (int i = 0; i < space.length; i++)
     space[i].show();
-  jchu.show();
-  jchu.move();
   for (int i = 0; i < rock.size(); i++)
   {
     rock.get(i).show();
@@ -27,11 +25,21 @@ public void draw()
     if (dist(jchu.getX(), jchu.getY(), rock.get(j).getX(), rock.get(j).getY()) < 27)
       rock.remove(j);
   }
+  for (int j = rock.size()-1; j >= 0; j--)
+  {
+    for (Bullet temp: bill)
+    {
+      if (dist(temp.getX(), temp.getY(), rock.get(j).getX(), rock.get(j).getY()) < 20)
+        rock.remove(j);
+    }
+  }
   for (int i = 0; i < bill.size(); i++)
   {
     bill.get(i).show();
     bill.get(i).move();
   }
+  jchu.show();
+  jchu.move();
 }
 public void keyPressed()
 {
@@ -51,7 +59,7 @@ public void keyPressed()
     jchu.setDirectionY(0);
     jchu.setPointDirection((int)(Math.random()*360));
   } 
-  if (keyCode == 83)
+  if (keyCode == 83) //letter s
     bill.add(new Bullet(jchu));
 }
 class SpaceShip extends Floater  
