@@ -25,14 +25,21 @@ public void draw()
     if (dist(jchu.getX(), jchu.getY(), rock.get(j).getX(), rock.get(j).getY()) < 27)
       rock.remove(j);
   }
+
+  //need to fix this
   for (int j = rock.size()-1; j >= 0; j--)
   {
-    for (Bullet temp: bill)
+    for (int i = bill.size()-1; i >= 0; i--)
     {
-      if (dist(temp.getX(), temp.getY(), rock.get(j).getX(), rock.get(j).getY()) < 20)
+      if (dist(bill.get(i).getX(), bill.get(i).getY(), rock.get(j).getX(), rock.get(j).getY()) < 20)
+      {
+        bill.remove(i);
         rock.remove(j);
+      }  
     }
   }
+
+
   for (int i = 0; i < bill.size(); i++)
   {
     bill.get(i).show();
@@ -44,14 +51,14 @@ public void draw()
 public void keyPressed()
 {
   if (keyCode == 37)
-    jchu.rotate(-5);
+    jchu.rotate(-10);
   if (keyCode == 38)
-    jchu.accelerate(.05);
+    jchu.accelerate(.1);
   if (keyCode == 39)
-    jchu.rotate(5);
+    jchu.rotate(10);
   if (keyCode == 40)    
-    jchu.accelerate(-.05);
-  if (keyCode == 32) //spacebar hyperspace
+    jchu.accelerate(-.1);
+  if (key == 'h') //hyperspace
   {
     jchu.setX((int)(Math.random()*600));
     jchu.setY((int)(Math.random()*600));
@@ -59,48 +66,10 @@ public void keyPressed()
     jchu.setDirectionY(0);
     jchu.setPointDirection((int)(Math.random()*360));
   } 
-  if (keyCode == 83) //letter s
+  if (keyCode == 32) //spacebar shoot
     bill.add(new Bullet(jchu));
 }
-class SpaceShip extends Floater  
-{
-  public SpaceShip()
-  {
-    corners = 7;
-    xCorners = new int[corners];
-    yCorners = new int[corners];
-    xCorners[0] = 12;
-    yCorners[0] = 0;
-    xCorners[1] = 7;
-    yCorners[1] = -4;
-    xCorners[2] = -5;
-    yCorners[2] = -4;
-    xCorners[3] = -8;
-    yCorners[3] = -8;
-    xCorners[4] = -8;
-    yCorners[4] = 8;
-    xCorners[5] = -5;
-    yCorners[5] = 4;
-    xCorners[6] = 7;
-    yCorners[6] = 4;
-    myColor = color((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
-    myCenterX = 300;
-    myCenterY = 300;
-    myDirectionX = 0;
-    myDirectionY = 0;
-    myPointDirection = 0;
-  }
-  public void setX(int x) {myCenterX = x;}
-  public int getX() {return (int)myCenterX;}
-  public void setY(int y) {myCenterY = y;}   
-  public int getY() {return (int)myCenterY;}   
-  public void setDirectionX(double x) {myDirectionX = x;}   
-  public double getDirectionX() {return myDirectionX;}  
-  public void setDirectionY(double y) {myDirectionY = y;}   
-  public double getDirectionY() {return myDirectionY;}   
-  public void setPointDirection(int degrees) {myPointDirection = degrees;}   
-  public double getPointDirection() {return myPointDirection;} 
-}
+
 abstract class Floater
 {   
   protected int corners;  //the number of corners 
@@ -129,9 +98,6 @@ abstract class Floater
     //change coordinates of direction of travel    
     myDirectionX += ((dAmount) * Math.cos(dRadians));    
     myDirectionY += ((dAmount) * Math.sin(dRadians)); 
-    line((float)(myCenterX - 20*Math.cos(dRadians)), (float)(myCenterY - 20*Math.sin(dRadians)), (float)(myCenterX - 35*Math.cos(dRadians)), (float)(myCenterY - 35*Math.sin(dRadians)));
-    line((float)(myCenterX - 20*Math.cos(dRadians - 10*Math.PI/180)), (float)(myCenterY - 20*Math.sin(dRadians - 10*Math.PI/180)), (float)(myCenterX - 35*Math.cos(dRadians - 10*Math.PI/180)), (float)(myCenterY - 35*Math.sin(dRadians - 10*Math.PI/180)));
-    line((float)(myCenterX - 20*Math.cos(dRadians + 10*Math.PI/180)), (float)(myCenterY - 20*Math.sin(dRadians + 10*Math.PI/180)), (float)(myCenterX - 35*Math.cos(dRadians + 10*Math.PI/180)), (float)(myCenterY - 35*Math.sin(dRadians + 10*Math.PI/180)));
   }   
   public void rotate (int nDegreesOfRotation)   
   {
@@ -178,80 +144,4 @@ abstract class Floater
     }   
     endShape(CLOSE); 
   }   
-} 
-
-class Star
-{
-  private int myX, myY, mySize, myColor;
-  public Star()
-  {
-    myX = (int)(Math.random()*600);
-    myY = (int)(Math.random()*600);
-    mySize = (int)(Math.random()*5);
-    myColor = color((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
-  }
-  public void show()
-  {
-    fill(myColor);
-    stroke(myColor);
-    ellipse(myX,myY,mySize,mySize);
-  }
-}
-
-class Asteroid extends Floater
-{
-  private int rotationSpeed;
-  public Asteroid()
-  {
-    corners = 12;
-    xCorners = new int[corners];
-    yCorners = new int[corners];
-    xCorners[0] = 24;
-    yCorners[0] = 0;
-    xCorners[1] = 16;
-    yCorners[1] = -5;
-    xCorners[2] = 19;
-    yCorners[2] = -20;
-    xCorners[3] = 3;
-    yCorners[3] = -16;
-    xCorners[4] = -1;
-    yCorners[4] = -23;
-    xCorners[5] = -14;
-    yCorners[5] = -14;
-    xCorners[6] = -23;
-    yCorners[6] = 1;
-    xCorners[7] = -19;
-    yCorners[7] = 15;
-    xCorners[8] = -8;
-    yCorners[8] = 7;
-    xCorners[9] = -9;
-    yCorners[9] = 22;
-    xCorners[10] = 14;
-    yCorners[10] = 23;
-    xCorners[11] = 17;
-    yCorners[11] = 2;
-    myColor = color(150,150,150);
-    myCenterX = (Math.random()*400);
-    myCenterY = (Math.random()*400);
-    myDirectionX = (Math.random()*6)-3;
-    myDirectionY = (Math.random()*6)-3;
-    myPointDirection = (Math.random()*360);
-    rotationSpeed = (int)(Math.random()*21)-10;
-  }
-  public void setX(int x) {myCenterX = x;}
-  public int getX() {return (int)myCenterX;}
-  public void setY(int y) {myCenterY = y;}   
-  public int getY() {return (int)myCenterY;}   
-  public void setDirectionX(double x) {myDirectionX = x;}   
-  public double getDirectionX() {return myDirectionX;}  
-  public void setDirectionY(double y) {myDirectionY = y;}   
-  public double getDirectionY() {return myDirectionY;}   
-  public void setPointDirection(int degrees) {myPointDirection = degrees;}   
-  public double getPointDirection() {return myPointDirection;} 
-
-  public void move()
-  {
-    super.rotate(rotationSpeed);
-    super.move();
-  }
 }
