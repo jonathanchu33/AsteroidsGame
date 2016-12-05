@@ -26,7 +26,7 @@ public void draw()
       rock.remove(j);
   }
 
-  //need to fix this
+//Think about this
   for (int j = rock.size()-1; j >= 0; j--)
   {
     for (int i = bill.size()-1; i >= 0; i--)
@@ -35,10 +35,10 @@ public void draw()
       {
         bill.remove(i);
         rock.remove(j);
+        break;
       }  
     }
   }
-
 
   for (int i = 0; i < bill.size(); i++)
   {
@@ -68,6 +68,11 @@ public void keyPressed()
   } 
   if (keyCode == 32) //spacebar shoot
     bill.add(new Bullet(jchu));
+  if (key == 'g') //stop
+  {
+    jchu.setDirectionX(0);
+    jchu.setDirectionY(0);
+  }
 }
 
 abstract class Floater
