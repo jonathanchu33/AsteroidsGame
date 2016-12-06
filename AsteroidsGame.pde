@@ -2,6 +2,9 @@ SpaceShip jchu = new SpaceShip();
 Star [] space = new Star[150];
 ArrayList <Asteroid> rock = new ArrayList <Asteroid>();
 ArrayList <Bullet> bill = new ArrayList <Bullet>();
+int score = 0;
+int lives = 5;
+
 public void setup() 
 {
   size(600,600);
@@ -10,23 +13,44 @@ public void setup()
   for (int i = 0; i < 10; i++) 
     rock.add(i, new Asteroid());
 }
+
 public void draw() 
 {
   background(0);
+
+  //Stars
   for (int i = 0; i < space.length; i++)
     space[i].show();
+
+  //Asteroids
   for (int i = 0; i < rock.size(); i++)
   {
     rock.get(i).show();
     rock.get(i).move();
   }
+
+  //Bullets
+  for (int i = 0; i < bill.size(); i++)
+  {
+    bill.get(i).show();
+    bill.get(i).move();
+  }
+
+  //Spaceship
+  jchu.show();
+  jchu.move();
+
+  //Spaceship gets hit
   for (int j = rock.size()-1; j >= 0; j--)
   {
     if (dist(jchu.getX(), jchu.getY(), rock.get(j).getX(), rock.get(j).getY()) < 27)
+    {
       rock.remove(j);
+      lives--;
+    }
   }
 
-//Think about this
+  //Asteroid gets shot
   for (int j = rock.size()-1; j >= 0; j--)
   {
     for (int i = bill.size()-1; i >= 0; i--)
@@ -35,19 +59,19 @@ public void draw()
       {
         bill.remove(i);
         rock.remove(j);
+        score += 10;
         break;
       }  
     }
   }
 
-  for (int i = 0; i < bill.size(); i++)
-  {
-    bill.get(i).show();
-    bill.get(i).move();
-  }
-  jchu.show();
-  jchu.move();
+  //Score display
+  textSize(20);
+  fill(0,255,0);
+  text("Score: "+score, 500, 25);
+  text("Lives: "+lives, 10, 25);
 }
+
 public void keyPressed()
 {
   if (keyCode == 37)
