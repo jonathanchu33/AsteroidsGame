@@ -50,5 +50,5 @@ class SpaceShip extends Floater
       line((float)(myCenterX - 20*Math.cos(dRadians + 10*Math.PI/180)), (float)(myCenterY - 20*Math.sin(dRadians + 10*Math.PI/180)), (float)(myCenterX - 35*Math.cos(dRadians + 10*Math.PI/180)), (float)(myCenterY - 35*Math.sin(dRadians + 10*Math.PI/180)));
       stroke(myColor);   
     }  
-  } 
+  }
 }

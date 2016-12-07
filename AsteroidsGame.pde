@@ -1,6 +1,7 @@
 SpaceShip jchu = new SpaceShip();
 Star [] space = new Star[150];
 ArrayList <Asteroid> rock = new ArrayList <Asteroid>();
+ArrayList <BabyAsteroid> pebble = new ArrayList <BabyAsteroid>();
 ArrayList <Bullet> bill = new ArrayList <Bullet>();
 int score = 0;
 int lives = 5;
@@ -29,6 +30,13 @@ public void draw()
     rock.get(i).move();
   }
 
+  //Baby Asteroids formed after collisions
+  for (int i = 0; i < pebble.size(); i++)
+  {
+    pebble.get(i).show();
+    pebble.get(i).move();
+  }
+
   //Bullets
   for (int i = 0; i < bill.size(); i++)
   {
@@ -40,12 +48,22 @@ public void draw()
   jchu.show();
   jchu.move();
 
-  //Spaceship gets hit
+  //Spaceship gets hit by asteroid
   for (int j = rock.size()-1; j >= 0; j--)
   {
     if (dist(jchu.getX(), jchu.getY(), rock.get(j).getX(), rock.get(j).getY()) < 27)
     {
       rock.remove(j);
+      lives--;
+    }
+  }
+
+  //Spaceship gets hit by baby asteroid
+  for (int j = pebble.size()-1; j >= 0; j--)
+  {
+    if (dist(jchu.getX(), jchu.getY(), pebble.get(j).getX(), pebble.get(j).getY()) < 13)
+    {
+      pebble.remove(j);
       lives--;
     }
   }
@@ -57,9 +75,27 @@ public void draw()
     {
       if (dist(bill.get(i).getX(), bill.get(i).getY(), rock.get(j).getX(), rock.get(j).getY()) < 20)
       {
+        //need to fix direction transfer
+        pebble.add(new BabyAsteroid(rock.get(j),(int)(rock.get(j).getDirectionX()),(int)(rock.get(j).getDirectionY())));
+        pebble.add(new BabyAsteroid(rock.get(j),(int)(rock.get(j).getDirectionX()*-1),(int)(rock.get(j).getDirectionY()*-1)));
         bill.remove(i);
         rock.remove(j);
         score += 10;
+        break;
+      }  
+    }
+  }
+
+  //Baby Asteroid gets shot
+  for (int j = pebble.size()-1; j >= 0; j--)
+  {
+    for (int i = bill.size()-1; i >= 0; i--)
+    {
+      if (dist(bill.get(i).getX(), bill.get(i).getY(), pebble.get(j).getX(), pebble.get(j).getY()) < 10)
+      {
+        bill.remove(i);
+        pebble.remove(j);
+        score += 20;
         break;
       }  
     }
@@ -70,6 +106,17 @@ public void draw()
   fill(0,255,0);
   text("Score: "+score, 500, 25);
   text("Lives: "+lives, 10, 25);
+  System.out.println(frameCount);
+
+  if (lives == 0)
+  {
+    textAlign(CENTER);
+    text("Game Over!", 300, 100);
+    text("Your score was: "+score, 300, 125);
+    text("Click to play again.", 300, 150);
+    textAlign(LEFT);
+    noLoop();
+  }
 }
 
 public void keyPressed()
@@ -80,7 +127,7 @@ public void keyPressed()
     jchu.accelerate(.1);
   if (keyCode == 39)
     jchu.rotate(10);
-  if (keyCode == 40)    
+  if (keyCode == 40) 
     jchu.accelerate(-.1);
   if (key == 'h') //hyperspace
   {
@@ -96,6 +143,22 @@ public void keyPressed()
   {
     jchu.setDirectionX(0);
     jchu.setDirectionY(0);
+  }
+}
+
+public void mousePressed()
+{
+  if (lives == 0)
+  {
+    lives = 5;
+    score = 0;
+    jchu = new SpaceShip();
+    rock = new ArrayList <Asteroid>();
+    for (int i = 0; i < 10; i++) 
+      rock.add(i, new Asteroid());
+    pebble = new ArrayList <BabyAsteroid>();
+    bill = new ArrayList <Bullet>();
+    loop();
   }
 }
 
