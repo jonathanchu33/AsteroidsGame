@@ -106,7 +106,6 @@ public void draw()
   fill(0,255,0);
   text("Score: "+score, 500, 25);
   text("Lives: "+lives, 10, 25);
-  System.out.println(frameCount);
 
   if (lives == 0)
   {
